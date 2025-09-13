@@ -1,0 +1,108 @@
+协议须知
+
+调用方在集成文本翻译 API 时，请遵循以下规则。
+
+规则	描述
+传输方式	HTTPS
+求方式	POST
+字符编码	统一使用 UTF-8 编码
+请求格式	表单
+响应格式	JSON
+请求参数
+字段名	含义	备注	必填
+appKey	应用标识（应用 ID）	**** 325f2a1d4****	true
+curtime	时间戳	当前UTC时间戳(秒)	true
+q	正文文本	图片文本	true
+salt	随机字符串	推荐使用uuid确保唯一性	true
+sign	签名信息：sha256(appKey+input+salt+密钥)	sha256(appKey+input+salt+密钥)	true
+signType	签名类型	v3	true
+grade	作文等级	取值见grade	false
+title	作文标题和题目要求	标题内容+题目要求，5000字符以内	false
+isNeedSynonyms	是否查询同义词	默认为 false（true/false）	false
+correctVersion	作文批改版本：基础，高级	默认为 basic（basic/advanced）返回结果见示例	false
+isNeedEssayReport	是否返回写作报告(essayReport字段,仅在高级批改时生效)	默认为 false（true/false）	false
+最好传输 limitedWords，这样评分更精确。 签名生成算法如下：
+
+signType=v3，sha256(应用 ID+input+salt+curtime+密钥)，推荐使用 sha256 签名计算方法为：sha256(应用 ID+input+salt+当前 UTC 时间戳+密钥)。
+
+其中，input 的计算方式为：input=多个q拼接后前10个字符 + 多个q拼接长度 + 多个q拼接后十个字符（当多个 q 拼接后长度大于 20）或 input=多个q拼接的字符串（当多个 q 拼接后长度小于等于 20）。
+
+不同语言获取时间戳，请参看此链接
+
+如果对签名有疑问，可以参看各语言 demo。
+
+grade取值
+学级	代码	分数
+不考虑级别，单纯评价句子好坏	default	100
+小学	elementary	100
+初中	junior	100
+高中	high	25
+四级	cet4	106.5
+六级	cet6	106.5
+考研	graduate	20
+考研英语(一)大作文	graduate_b1	20
+考研英语(一)小作文	graduate_a1	10
+考研英语(二)小作文	graduate_a2	10
+考研英语(二)大作文	graduate_b2	15
+托福	toefl	30
+托福-独立写作	toefl_independent	30
+托福-综合写作	toefl_comprehensive	30
+考研	graduate	20
+GRE	gre	6
+雅思	ielts	9
+雅思-task1	ielts_task1	9
+雅思-task2	ielts_task2	9
+学术写作	academic	100
+同义词推荐类型信息
+编码	名称	解释
+1	LEXICAL	词级近义推荐
+2	PHRASE	不合适的搭配
+3	VERY	固定搭配
+返回结果
+参数名称	描述
+RequestId	请求Id
+errorCode	错误码
+Result	返回结果
+服务配置
+服务内容	说明
+图像识别	支持 jpg/png/bmp 格式，base64 编码后进行 urlencode，要求 base64 编码 后大小不超过 4M，最短边至少 15px，最长边最大 4096px
+错误代码列表
+错误码	含义
+101	缺少必填的参数，首先确保必填参数齐全，然后，确认参数书写是否正确。
+102	不支持的语言类型
+103	翻译文本过长
+104	不支持的API类型
+105	不支持的签名类型
+106	不支持的响应类型
+107	不支持的传输加密类型
+108	应用ID无效，注册账号，登录后台创建应用，可获得应用ID和应用密钥等信息
+109	batchLog格式不正确
+110	无相关服务的有效应用，。注：某些服务的结果发音需要tts服务，需要在控制台创建语音合成实例绑定应用后方能使用。
+111	开发者账号无效
+112	请求服务无效
+113	q不能为空
+114	不支持的图片传输方式
+201	解密失败，可能为DES,BASE64,URLDecode的错误
+202	签名检验失败，如果确认应用ID和应用密钥的正确性，仍返回202，一般是编码问题。请确保翻译文本 q 为UTF-8编码.
+203	访问IP地址不在可访问IP列表
+205	请求的接口与应用的平台类型不一致，确保接入方式（Android SDK、IOS SDK、API）与创建的应用平台类型一致。如有疑问请参考入门指南
+206	因为时间戳无效导致签名校验失败
+207	重放请求
+301	辞典查询失败
+302	翻译查询失败
+303	服务端的其它异常
+304	会话闲置太久超时
+401	账户已经欠费停
+402	offlinesdk不可用
+411	访问频率受限,请稍后访问
+412	长请求过于频繁，请稍后访问
+29001	inputType 类型不对
+29002	needTypo 类型不对
+29003	Q 超过限制长度
+29004	grade 类型不对
+29005	文件为空
+29006	图片过大
+29007	作文批改的文本内容为空
+29008	isNeedSynonyms参数错误
+29009	ocr识别结果为空
+29301	作文批改请求失败

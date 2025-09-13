@@ -1,0 +1,114 @@
+/* 全局样式 */
+body {
+    font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.container {
+    max-width: 1000px;
+}
+
+/* 卡片样式 */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
+}
+
+/* 相机和图片上传样式 */
+.camera-container {
+    width: 100%;
+    max-width: 640px;
+    height: 480px;
+    margin: 0 auto;
+    position: relative;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.camera-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-size: 1.2rem;
+}
+
+#cameraPreview, #pictureCanvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#capturedImage, #uploadedImage {
+    max-height: 400px;
+    margin: 0 auto;
+}
+
+/* 批改结果样式 */
+.correction-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 4px solid #007bff;
+    background-color: #f8f9fa;
+}
+
+.error-highlight {
+    background-color: #ffecec;
+    padding: 2px 4px;
+    border-radius: 3px;
+    border-bottom: 2px solid #dc3545;
+}
+
+.correction-suggestion {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* 计时器样式 */
+#timerDisplay {
+    font-size: 2rem;
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* 分数和评价样式 */
+.score-display {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+}
+
+.score-label {
+    font-size: 1rem;
+    color: #6c757d;
+    text-align: center;
+}
+
+.evaluation-box {
+    background-color: #e9f7ef;
+    border-left: 5px solid #28a745;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .camera-container {
+        height: 320px;
+    }
+    
+    #capturedImage, #uploadedImage {
+        max-height: 300px;
+    }
+}
